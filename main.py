@@ -1,6 +1,8 @@
 import pygame
 import sys
 from settings import *
+from predator import *
+from prey import *
 
 pygame.init()
 
@@ -24,6 +26,12 @@ while True:
 
     SCREEN.fill(WHITE)
     draw_grid()
+    
+    p = Predator((200, 200), 1, RED)
+    p.draw(SCREEN)
+
+    pre = Prey((300, 200), 1, GREEN)
+    pre.draw(SCREEN)
 
     pygame.display.flip()
 

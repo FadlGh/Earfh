@@ -3,6 +3,5 @@ from settings import *
 from entity import *
 
 class Predator(Entity):
-    def __init__(self):
-        self.speed = 1
-        self.color = RED
+    def __init__(self, position, speed, color):
+        super().__init__(position, speed, color)
