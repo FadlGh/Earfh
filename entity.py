@@ -14,9 +14,14 @@ class Entity:
             raise ValueError(f"Invalid state: {new_state}")
         self.current_state = new_state
 
-    def update(self):
-        if self.current_state == "moving":
-            self.position = (self.position[0], self.position[1])
-
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.position[0], self.position[1], BLOCK_SIZE, BLOCK_SIZE))
+
+    def move(self):
+        self.position[0] += self.speed
+        print(self.position[0])
+
+    def update(self, screen):
+        self.draw(screen)
+        if self.current_state == "moving":
+            self.move()
