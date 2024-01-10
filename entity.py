@@ -8,6 +8,7 @@ class Entity:
         self.position = position
         self.speed = speed
         self.color = color
+        self.last_move_time = pygame.time.get_ticks()
 
     def switch_state(self, new_state):
         if new_state not in self.states:
@@ -21,7 +22,17 @@ class Entity:
         self.position[0] += self.speed
         print(self.position[0])
 
+    def delay(self, duration):
+        current_time = pygame.time.get_ticks()
+        time_elapsed_since_last_move = current_time - self.last_move_time
+
+        return(time_elapsed_since_last_move >= duration)
+
     def update(self, screen):
-        self.draw(screen)
         if self.current_state == "moving":
-            self.move()
+            if self.delay(1000) :
+                self.move()
+                self.last_move_time = pygame.time.get_ticks() 
+
+
+        self.draw(screen)
