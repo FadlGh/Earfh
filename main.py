@@ -19,8 +19,8 @@ def draw_grid():
             pygame.draw.rect(SCREEN, BLACK, rect, 1)
 
 
-pre = Prey([300, 200], 20, GREEN)
-
+prey = Prey([300, 200], BLOCK_SIZE, GREEN)
+predator = Predator([100, 200], BLOCK_SIZE, RED)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -30,7 +30,8 @@ while True:
     SCREEN.fill(WHITE)
     draw_grid()
 
-    pre.update(SCREEN)
+    prey.update(SCREEN)
+    predator.update(SCREEN)
 
     pygame.display.flip()
 

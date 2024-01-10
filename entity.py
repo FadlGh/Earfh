@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+import random
 
 class Entity:
     def __init__(self, position, speed, color):
@@ -19,8 +20,8 @@ class Entity:
         pygame.draw.rect(screen, self.color, (self.position[0], self.position[1], BLOCK_SIZE, BLOCK_SIZE))
 
     def move(self):
-        self.position[0] += self.speed
-        print(self.position[0])
+        self.position[0] += self.speed * random.randint(-1, 1)
+        self.position[1] += self.speed * random.randint(-1, 1)
 
     def delay(self, duration):
         current_time = pygame.time.get_ticks()
@@ -30,7 +31,7 @@ class Entity:
 
     def update(self, screen):
         if self.current_state == "moving":
-            if self.delay(1000) :
+            if self.delay(1000):
                 self.move()
                 self.last_move_time = pygame.time.get_ticks() 
 
