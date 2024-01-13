@@ -20,8 +20,22 @@ class Entity:
         pygame.draw.rect(screen, self.color, (self.position[0], self.position[1], BLOCK_SIZE, BLOCK_SIZE))
 
     def move(self):
-        self.position[0] += self.speed * random.randint(-1, 1)
-        self.position[1] += self.speed * random.randint(-1, 1)
+        x = random.randint(-1, 1)
+        y = random.randint(-1, 1)
+
+        if self.position[0] + self.speed * x > WINDOW_WIDTH:
+            x = random.randint(-1, 0)
+        elif self.position[0] + self.speed * x < 0:
+            x = random.randint(0, 1)
+
+        if self.position[1] + self.speed * y > WINDOW_HEIGHT:
+            y = random.randint(-1, 0)
+        elif self.position[1] + self.speed * y < 0:
+            y = random.randint(0, 1)
+
+        self.position[0] += self.speed * x
+        self.position[1] += self.speed * y
+
 
     def delay(self, action_name, delay_duration):
         current_time = pygame.time.get_ticks()

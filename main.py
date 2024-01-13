@@ -7,7 +7,7 @@ from prey import *
 pygame.init()
 
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("Grid Simulation")
+pygame.display.set_caption("Earfh")
 
 clock = pygame.time.Clock()
 
@@ -19,11 +19,12 @@ def draw_grid():
             pygame.draw.rect(SCREEN, BLACK, rect, 1)
 
 
-prey = Prey([300, 200], BLOCK_SIZE, GREEN)
+prey = Prey([100, 200], BLOCK_SIZE, GREEN)
 predator = Predator([100, 200], BLOCK_SIZE, RED)
 
 prey1 = Prey([360, 340], BLOCK_SIZE, GREEN)
-predator1 = Predator([160, 160], BLOCK_SIZE, RED)
+predator1 = Predator([60, 160], BLOCK_SIZE, RED)
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
