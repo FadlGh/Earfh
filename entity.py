@@ -23,12 +23,12 @@ class Entity:
         x = random.randint(-1, 1)
         y = random.randint(-1, 1)
 
-        if self.position[0] + self.speed * x > WINDOW_WIDTH:
+        if self.position[0] + self.speed * x > WINDOW_WIDTH - BLOCK_SIZE:
             x = random.randint(-1, 0)
         elif self.position[0] + self.speed * x < 0:
             x = random.randint(0, 1)
 
-        if self.position[1] + self.speed * y > WINDOW_HEIGHT:
+        if self.position[1] + self.speed * y > WINDOW_HEIGHT - BLOCK_SIZE:
             y = random.randint(-1, 0)
         elif self.position[1] + self.speed * y < 0:
             y = random.randint(0, 1)

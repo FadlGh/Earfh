@@ -1,5 +1,10 @@
 fps = 60
 
+ENTITIES_COUNT = 6
+preys = []
+predators = []
+
+
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 GREEN = (0, 200, 0)
