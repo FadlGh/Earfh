@@ -1,14 +1,16 @@
-fps = 60
+FPS = 60
 
 ENTITIES_COUNT = 6
+TREE_COUNT = 15
 preys = []
 predators = []
-
+trees = []
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 GREEN = (0, 200, 0)
 RED = (200, 0, 0)
+DARK_GREEN = (1, 50, 32)
 
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 600
