@@ -8,3 +8,6 @@ class Tree():
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.position[0], self.position[1], BLOCK_SIZE, BLOCK_SIZE))
+
+    def destroy(self):
+        trees.remove(self)

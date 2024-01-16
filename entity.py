@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 import random
+import math
 
 class Entity:
     def __init__(self, position, speed, color):
@@ -10,6 +11,7 @@ class Entity:
         self.speed = speed
         self.color = color
         self.delay_timers = {}
+        self.interactions = []
 
     def switch_state(self, new_state):
         if new_state not in self.states:
@@ -39,12 +41,27 @@ class Entity:
 
     def delay(self, action_name, delay_duration):
         current_time = pygame.time.get_ticks()
-        if action_name not in self.delay_timers or current_time - self.delay_timers[action_name] >= delay_duration:
+        if action_name not in self.delay_timers or current_time - self.delay_timers[action_name] >= delay_duration: # Add to a dictionary the name of the timer or update its time
             self.delay_timers[action_name] = current_time
             return True
         return False
 
+    def interact(self, interaction):
+        self.position = interaction.position
+        interaction.destroy()
+
+    def check_interaction(self, interactions):
+        closest_interaction = min(interactions, key=lambda interaction: math.dist(self.position, interaction.position))
+        distance_to_closest_interaction = math.dist(self.position, closest_interaction.position)
+        if distance_to_closest_interaction <= math.hypot(BLOCK_SIZE): 
+            ''' 
+            Check the hypotenuse of a isoceles right triangle because 
+            distance may vary based on which of the 8 neighbouring blocks the interaction is 
+            '''
+            self.interact(closest_interaction)
+
     def update(self, screen):
+        self.check_interaction(self.interactions)
         if self.current_state == "moving" and self.delay("move", 1000):
             self.move()
 
