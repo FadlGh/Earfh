@@ -5,7 +5,8 @@ from entity import *
 class Prey(Entity):
     def __init__(self, position, speed, color):
         super().__init__(position, speed, color)
-        self.interactions = trees
+        self.food = trees
+        self.mates = preys
 
     def destroy(self):
         preys.remove(self)

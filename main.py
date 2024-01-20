@@ -1,6 +1,6 @@
 import pygame
 import sys
-import random
+from enviroment import *
 from settings import *
 from predator import *
 from prey import *
@@ -13,18 +13,7 @@ pygame.display.set_caption("Earfh")
 
 clock = pygame.time.Clock()
 
-def draw_grid():
-    for x in range(0, WINDOW_WIDTH, BLOCK_SIZE):
-        for y in range(0, WINDOW_HEIGHT, BLOCK_SIZE):
-            rect = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
-            pygame.draw.rect(SCREEN, BLACK, rect, 1)
-
-for i in range(TREE_COUNT):
-    trees.append(Tree([random.randint(0, WINDOW_WIDTH / BLOCK_SIZE) * BLOCK_SIZE, random.randint(0, WINDOW_HEIGHT / BLOCK_SIZE) * BLOCK_SIZE], DARK_GREEN))
-
-for i in range(ENTITIES_COUNT):
-    preys.append(Prey([random.randint(0, WINDOW_WIDTH / BLOCK_SIZE) * BLOCK_SIZE, random.randint(0, WINDOW_HEIGHT / BLOCK_SIZE) * BLOCK_SIZE], BLOCK_SIZE, GREEN))
-    predators.append(Predator([random.randint(0, WINDOW_WIDTH / BLOCK_SIZE) * BLOCK_SIZE, random.randint(0, WINDOW_HEIGHT / BLOCK_SIZE) * BLOCK_SIZE], BLOCK_SIZE, RED))
+e = Enviroment(SCREEN)
 
 while True:
     for event in pygame.event.get():
@@ -32,17 +21,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-    SCREEN.fill(WHITE)
-    draw_grid()
-
-    for prey in preys:
-        prey.update(SCREEN)
-
-    for predator in predators:
-        predator.update(SCREEN)
-    
-    for tree in trees:
-        tree.draw(SCREEN)
+    e.update()
 
     pygame.display.flip()
 

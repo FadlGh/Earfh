@@ -11,7 +11,8 @@ class Entity:
         self.speed = speed
         self.color = color
         self.delay_timers = {}
-        self.interactions = []
+        self.food = []
+        self.mates = []
 
     def switch_state(self, new_state):
         if new_state not in self.states:
@@ -47,21 +48,27 @@ class Entity:
             return True
         return False
 
-    def interact(self, interaction):
+    def kill(self, interaction):
         self.position = interaction.position
         interaction.destroy()
+
+    def reproduce(self):
+        pass
 
     def check_interaction(self, interactions):
         closest_interaction = min(interactions, key=lambda interaction: math.dist(self.position, interaction.position))
         distance_to_closest_interaction = math.dist(self.position, closest_interaction.position)
-        if distance_to_closest_interaction <= math.hypot(BLOCK_SIZE, BLOCK_SIZE) + 2: 
-            print(math.hypot(BLOCK_SIZE, BLOCK_SIZE) + 2)
+        if distance_to_closest_interaction <= math.hypot(BLOCK_SIZE, BLOCK_SIZE): 
             # Check the hypotenuse of a isoceles right triangle because distance may vary based on which of the 8 neighbouring blocks the interaction is 
-            self.interact(closest_interaction)
+            if closest_interaction in self.food:
+                self.kill(closest_interaction)
+            elif closest_interaction in self.mates:
+                self.reproduce()
 
     def update(self, screen):
         if self.current_state == "moving" and self.delay("move", 1000):
-            self.check_interaction(self.interactions)
+            self.check_interaction(self.food)
+            self.check_interaction(self.mates)
             self.move()
 
         self.draw(screen)
