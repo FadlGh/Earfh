@@ -1,8 +1,7 @@
 FPS = 60
 
-PREY_COUNT = 10
-PREDATOR_COUNT = 6 
-TREE_COUNT = 18
+ENTITIES_COUNT = 6
+TREE_COUNT = 1
 preys = []
 predators = []
 trees = []

@@ -10,8 +10,3 @@ class Prey(Entity):
 
     def destroy(self):
         preys.remove(self)
-
-    def spawn(self, pos):
-        preys.append(Prey(pos, BLOCK_SIZE, GREEN))
-        
-
