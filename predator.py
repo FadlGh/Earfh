@@ -10,3 +10,6 @@ class Predator(Entity):
 
     def destroy(self):
         predators.remove(self)
+
+    def spawn(self, pos):
+        predators.append(Predator(pos, BLOCK_SIZE, GREEN))

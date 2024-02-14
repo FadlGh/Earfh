@@ -52,8 +52,8 @@ class Entity:
         self.position = interaction.position
         interaction.destroy()
 
-    def reproduce(self):
-        pass
+    def reproduce(self, interaction):
+        interaction.spawn(self.position)
 
     def check_interaction(self, interactions):
         closest_interaction = min(interactions, key=lambda interaction: math.dist(self.position, interaction.position))
@@ -62,13 +62,12 @@ class Entity:
             # Check the hypotenuse of a isoceles right triangle because distance may vary based on which of the 8 neighbouring blocks the interaction is 
             if closest_interaction in self.food:
                 self.kill(closest_interaction)
-            elif closest_interaction in self.mates:
-                self.reproduce()
 
     def update(self, screen):
         if self.current_state == "moving" and self.delay("move", 1000):
             self.check_interaction(self.food)
-            self.check_interaction(self.mates)
             self.move()
+            if self.delay("reproduce", 5000):
+                self.reproduce(self)
 
         self.draw(screen)
