@@ -10,3 +10,7 @@ class Predator(Entity):
 
     def destroy(self):
         predators.remove(self)
+
+    def spawn(self):
+        print("d")
+        predators.append(Predator([random.randint(0, WINDOW_WIDTH / BLOCK_SIZE) * BLOCK_SIZE, random.randint(0, WINDOW_HEIGHT / BLOCK_SIZE) * BLOCK_SIZE], BLOCK_SIZE, RED))

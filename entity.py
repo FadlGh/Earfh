@@ -5,7 +5,7 @@ import math
 
 class Entity:
     def __init__(self, position, speed, color):
-        self.states = ["resting", "moving", "reproducing"]
+        self.states = ["resting", "moving"]
         self.current_state = "moving"
         self.position = position
         self.speed = speed
@@ -42,18 +42,22 @@ class Entity:
 
     def delay(self, action_name, delay_duration):
         current_time = pygame.time.get_ticks()
-        if action_name not in self.delay_timers or current_time - self.delay_timers[action_name] >= delay_duration:
+        if action_name not in self.delay_timers:
+            self.delay_timers[action_name] = current_time
+
+        if current_time - self.delay_timers[action_name] >= delay_duration:
             # Add to a dictionary the name of the timer or update its time
             self.delay_timers[action_name] = current_time
             return True
+        
         return False
 
     def kill(self, interaction):
         self.position = interaction.position
         interaction.destroy()
 
-    def reproduce(self):
-        pass
+    def reproduce(self, interaction):
+        interaction.spawn()
 
     def check_interaction(self, interactions):
         closest_interaction = min(interactions, key=lambda interaction: math.dist(self.position, interaction.position))
@@ -63,12 +67,15 @@ class Entity:
             if closest_interaction in self.food:
                 self.kill(closest_interaction)
             elif closest_interaction in self.mates:
-                self.reproduce()
+                self.reproduce(closest_interaction)
 
     def update(self, screen):
         if self.current_state == "moving" and self.delay("move", 1000):
             self.check_interaction(self.food)
-            self.check_interaction(self.mates)
             self.move()
+
+        
+        if self.delay("reproducing", 20000):
+            self.check_interaction(self.mates)
 
         self.draw(screen)
