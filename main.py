@@ -17,7 +17,7 @@ e = Enviroment(SCREEN)
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or preys == [] or predators == [] or trees == []:
             pygame.quit()
             sys.exit()
 
