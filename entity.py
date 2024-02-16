@@ -4,12 +4,13 @@ import random
 import math
 
 class Entity:
-    def __init__(self, position, speed, color):
+    def __init__(self, position, speed, color, energy):
         self.states = ["resting", "moving"]
         self.current_state = "moving"
         self.position = position
         self.speed = speed
         self.color = color
+        self.energy = energy
         self.delay_timers = {}
         self.food = []
         self.mates = []
@@ -39,6 +40,8 @@ class Entity:
         self.position[0] += self.speed * x
         self.position[1] += self.speed * y
 
+        self.energy -= 0.5
+
 
     def delay(self, action_name, delay_duration):
         current_time = pygame.time.get_ticks()
@@ -51,10 +54,17 @@ class Entity:
             return True
         
         return False
+    
+    def destroy(self):
+        pass
+
+    def spawn(self):
+        pass
 
     def kill(self, interaction):
         self.position = interaction.position
         interaction.destroy()
+        self.energy += 3
 
     def reproduce(self, interaction):
         interaction.spawn()
@@ -62,7 +72,7 @@ class Entity:
     def check_interaction(self, interactions):
         closest_interaction = min(interactions, key=lambda interaction: math.dist(self.position, interaction.position))
         distance_to_closest_interaction = math.dist(self.position, closest_interaction.position)
-        if distance_to_closest_interaction <= math.hypot(BLOCK_SIZE, BLOCK_SIZE): 
+        if distance_to_closest_interaction <= math.hypot(BLOCK_SIZE + 0.1, BLOCK_SIZE + 0.1): 
             # Check the hypotenuse of a isoceles right triangle because distance may vary based on which of the 8 neighbouring blocks the interaction is 
             if closest_interaction in self.food:
                 self.kill(closest_interaction)
@@ -70,10 +80,12 @@ class Entity:
                 self.reproduce(closest_interaction)
 
     def update(self, screen):
+        if self.energy < 1:
+            self.destroy()
+
         if self.current_state == "moving" and self.delay("move", 1000):
             self.check_interaction(self.food)
             self.move()
-
         
         if self.delay("reproducing", 20000):
             self.check_interaction(self.mates)
